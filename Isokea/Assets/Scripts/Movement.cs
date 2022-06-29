@@ -20,7 +20,6 @@ public class Movement : MonoBehaviour
     GameObject weapon;
     float yVelocity = 0;
     bool canMove = true;
-    float timer = 0;
     bool doHitstun = false;
     Vector3 hitDirection;
     float hitForce;
@@ -35,11 +34,13 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetInput();
+        if(canMove)
+            GetInput();
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        //DoAnimations();
     }
     void FixedUpdate()
     {
@@ -60,11 +61,12 @@ public class Movement : MonoBehaviour
         {
             controller.Move(moveSpeed * Time.deltaTime * movementDir);          
         }
-        else if (doHitstun)
+        else if (doHitstun && movementDir != new Vector3(0,0,0))
         {
-            controller.Move(hitForce * Time.deltaTime * hitDirection);     
+            controller.Move(hitForce * Time.deltaTime * Vector3.Lerp(movementDir, new Vector3(0,movementDir.y,0), stunDuration));     
         }
-
+        else
+            controller.Move(hitForce * Time.deltaTime * hitDirection);
         //make gravity
         if (!controller.isGrounded)
         {
@@ -105,35 +107,48 @@ public class Movement : MonoBehaviour
         {
             if (movementDir.z > 0) //moving left
             {
-                ChangeAnimationState("player_up_left");
+                //ChangeAnimationState("player_up_left");
+                Debug.Log("up left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                ChangeAnimationState("player_up_right");
+                //ChangeAnimationState("player_up_right");
+                Debug.Log("up right");
             }
-            else
-                ChangeAnimationState("player_up");
+            else //pure up
+            {
+                //ChangeAnimationState("player_up");
+                Debug.Log("up");
+            }
+
         }
         else if (movementDir.x < 0) //moving down
         {
             if (movementDir.z > 0) //moving left
             {
-                ChangeAnimationState("player_down_left");
+                //ChangeAnimationState("player_down_left");
+                Debug.Log("down left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                ChangeAnimationState("player_down_right");
+                //ChangeAnimationState("player_down_right");
+                Debug.Log("down right");
             }
             else //pure down
-                ChangeAnimationState("player_down");             
+            {
+                //ChangeAnimationState("player_down");
+                Debug.Log("down");
+            }
         }
         else if (movementDir.z > 0) //moving left
         {
-            ChangeAnimationState("player_left");
+            //ChangeAnimationState("player_left");
+            Debug.Log("left");
         }
         else if (movementDir.z < 0) //moving right
         {
-            ChangeAnimationState("player_right");
+            //ChangeAnimationState("player_right");
+            Debug.Log("right");
         }
     }
 }
