@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class WeaponScript : MonoBehaviour
 {
+    [Header("Light Attack Settings")]
     [SerializeField]
-    float timeBetweenAttacks = 1;
+    float lightTimeBetweenAttacks = 1;
     [SerializeField]
-    float attackDuration = 1;
+    float lightAttackDuration = 1;
     [SerializeField]
-    float forwardForce = 1;
+    float lightForwardForce = 1;
+    [SerializeField]
+    float lightComboDelay = .2f;
+    [SerializeField]
+    float lightAttackDurationEndCombo = 1;
+    [SerializeField]
+    float lightForwardForceEndCombo = 1;
+
+    [Header("Keybinds")]
+    [SerializeField]
+    KeyCode LightAttackKey = KeyCode.Mouse0;
+
+    [Header("Object References")]
     [SerializeField]
     GameObject weaponObject;
     [SerializeField]
@@ -17,13 +30,13 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     Movement plMovement;
 
-    [Header("Keybinds")]
-    [SerializeField]
-    KeyCode LightAttackKey = KeyCode.Mouse0;
 
-
+    int comboThreshold = 2;
+    int lightAttackNum;
+    float timer = 0;
     bool canAttack = true;
     Vector3 movementDir = new Vector3(0,0,1);
+    bool canCombo = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +48,22 @@ public class WeaponScript : MonoBehaviour
     {
         this.transform.position = playerGameobject.transform.position;
         GetInput();
+        ComboTimer();
+    }
+    void ComboTimer()
+    {
+        if(canAttack)
+            timer += Time.deltaTime;
+        if (timer <= lightComboDelay)
+        {
+            canCombo = false;
+        }
+        else
+        {
+            canCombo = true;
+            lightAttackNum = 0;
+        }
+
     }
 
     void GetInput()
@@ -82,7 +111,12 @@ public class WeaponScript : MonoBehaviour
         }
         if (Input.GetKeyDown(LightAttackKey) && canAttack)
         {
-            LightAttack();
+            if (canCombo = true && lightAttackNum >= comboThreshold)
+            {
+                LightComboFinalAttack();
+            }
+            else
+                LightAttack();
         }
     }
 
@@ -91,13 +125,24 @@ public class WeaponScript : MonoBehaviour
     {
         canAttack = false;
         weaponObject.SetActive(true);
-        plMovement.EnterHitstun(movementDir, forwardForce, attackDuration);
-        Invoke("EndAttack", attackDuration);
+        lightAttackNum += 1;
+        timer = 0;
+        plMovement.EnterHitstun(movementDir, lightForwardForce, lightAttackDuration);
+        Invoke("EndAttack", lightAttackDuration);
+    }
+    void LightComboFinalAttack()
+    {
+        Debug.Log("gaeiming");
+        lightAttackNum = 0;
+        canAttack = false;
+        weaponObject.SetActive(true);
+        plMovement.EnterHitstun(movementDir, lightForwardForceEndCombo, lightAttackDurationEndCombo);
+        Invoke("EndAttack", lightAttackDurationEndCombo);
     }
     void EndAttack()
     {
         weaponObject.SetActive(false);
-        Invoke("AllowAttack", timeBetweenAttacks);
+        Invoke("AllowAttack", lightTimeBetweenAttacks);
     }
 
     void AllowAttack()

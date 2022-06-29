@@ -70,14 +70,12 @@ public class Movement : MonoBehaviour
         //make gravity
         if (!controller.isGrounded)
         {
-            yVelocity -= _gravity;
+            yVelocity -= _gravity; 
             controller.Move(new Vector3(0, yVelocity, 0) * Time.deltaTime);
         }
         else
             yVelocity = 0;
     }
-
-    //make hitstun slow player to stop instead of instant stop
     public void EnterHitstun(Vector3 hitDirection_, float hitForce_, float stunDuration_)
     {
         canMove = false;
