@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.5755831, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -168,13 +168,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e199cfaeac884e64d8aecb7ad060df48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAttacks: 0.2
-  attackDuration: 0.2
-  forwardForce: 2
+  lightTimeBetweenAttacks: 0.2
+  lightAttackDuration: 0.2
+  lightForwardForce: 1
+  lightComboDelay: 0.2
+  lightAttackDurationEndCombo: 0.5
+  lightForwardForceEndCombo: 0.5
+  LightAttackKey: 323
   weaponObject: {fileID: 2046207656}
   playerGameobject: {fileID: 1630541315}
   plMovement: {fileID: 1731110671}
-  LightAttackKey: 323
 --- !u!1 &521964362
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +774,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

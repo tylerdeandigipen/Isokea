@@ -132,7 +132,6 @@ public class WeaponScript : MonoBehaviour
     }
     void LightComboFinalAttack()
     {
-        Debug.Log("gaeiming");
         lightAttackNum = 0;
         canAttack = false;
         weaponObject.SetActive(true);

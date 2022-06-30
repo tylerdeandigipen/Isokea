@@ -25,17 +25,16 @@ public class Movement : MonoBehaviour
     float hitForce;
     float stunDuration;
     Animator animator;
-    // Start is called before the first frame update
+
     void Start()
     {
         controller = this.GetComponentInChildren<CharacterController>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        if(canMove)
-            GetInput();
+        GetInput();
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -59,14 +58,16 @@ public class Movement : MonoBehaviour
     {
         if (canMove)
         {
-            controller.Move(moveSpeed * Time.deltaTime * movementDir);          
+            controller.Move(moveSpeed * Time.deltaTime * movementDir);
         }
-        else if (doHitstun && movementDir != new Vector3(0,0,0))
+        else if (doHitstun && movementDir != new Vector3(0, 0, 0))
         {
-            controller.Move(hitForce * Time.deltaTime * Vector3.Lerp(movementDir, new Vector3(0,movementDir.y,0), stunDuration));     
+            controller.Move(hitForce * Time.deltaTime * Vector3.Lerp(movementDir, new Vector3(0, movementDir.y, 0), stunDuration));
         }
-        else
+        else if (doHitstun)
+        {
             controller.Move(hitForce * Time.deltaTime * hitDirection);
+        }
         //make gravity
         if (!controller.isGrounded)
         {
