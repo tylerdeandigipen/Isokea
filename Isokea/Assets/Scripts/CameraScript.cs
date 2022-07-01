@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    [SerializeField]
-    float smoothSpeed = 1;
+    [Range(0f, 1f)] 
+    public float smoothSpeed = .5f;
     [SerializeField]
     Vector3 camOffset;
     [SerializeField]
@@ -19,8 +19,11 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 desiredPos = new Vector3(objectToFollow.transform.position.x + camOffset.x, objectToFollow.transform.position.y + camOffset.y, objectToFollow.transform.position.z + camOffset.z);
-        Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-        this.transform.position = smoothedPos;
+        if (objectToFollow != null)
+        {
+            Vector3 desiredPos = new Vector3(objectToFollow.transform.position.x + camOffset.x, objectToFollow.transform.position.y + camOffset.y, objectToFollow.transform.position.z + camOffset.z);
+            Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+            this.transform.position = smoothedPos;
+        }
     }
 }
