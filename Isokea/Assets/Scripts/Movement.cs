@@ -24,6 +24,8 @@ public class Movement : MonoBehaviour
     float dashDuration = 1;
     [SerializeField]
     KeyCode dashKey = KeyCode.LeftShift;
+    [SerializeField]
+    float dashCooldown = .2f;
     public Vector3 dashDirection;
 
     [Header("Misc")]
@@ -40,7 +42,6 @@ public class Movement : MonoBehaviour
     float stunDuration;
     Animator animator;
     bool isDashing = false;
-    float dashCooldown = 0;
     bool canDash = true;
     void Start()
     {
@@ -74,6 +75,7 @@ public class Movement : MonoBehaviour
             canDash = false;
             dashDirection = movementDir;
             Invoke("EndHitstun", dashDuration);
+            Invoke("RefreshDash", dashDuration + dashCooldown);
         }
         movementDir = new Vector3(Input.GetAxis("Vertical") * sprintMultiplier, 0, -Input.GetAxis("Horizontal") * sprintMultiplier);
     }
@@ -121,6 +123,9 @@ public class Movement : MonoBehaviour
         doHitstun = false;
         isDashing = false;
         canMove = true;
+    }
+    void RefreshDash()
+    {
         canDash = true;
     }
     private string currentState;

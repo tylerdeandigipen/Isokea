@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.5755831, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -848,6 +848,12 @@ MonoBehaviour:
   speedMultiplier: 1.5
   canSprint: 0
   _gravity: 2
+  dashSpeed: 22.5
+  dashTurnSpeed: 0.1
+  dashDuration: 0.65
+  dashKey: 304
+  dashCooldown: 0.3
+  dashDirection: {x: 0, y: 0, z: 0}
   movementDir: {x: 0, y: 0, z: 0}
   weapon: {fileID: 151258640}
 --- !u!4 &1731110672
