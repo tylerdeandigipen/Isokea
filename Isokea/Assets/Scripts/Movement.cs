@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
+    [Header("Normal Movement")]
     [SerializeField]
     float moveSpeed = 1;
     [SerializeField]
@@ -13,24 +14,36 @@ public class Movement : MonoBehaviour
     bool canSprint = false;
     [SerializeField]
     int _gravity = 1;
-    CharacterController controller;
+    
+    [Header("Dash Settings")]
+    [SerializeField]
+    float dashSpeed = 1;
+    [SerializeField]
+    float dashTurnSpeed = 1;
+    [SerializeField]
+    float dashDuration = 1;
+    [SerializeField]
+    KeyCode dashKey = KeyCode.LeftShift;
+    public Vector3 dashDirection;
+
+    [Header("Misc")]
     [SerializeField]
     Vector3 movementDir = new Vector3(0,0,0);
     [SerializeField]
     GameObject weapon;
     float yVelocity = 0;
+    CharacterController controller;
     bool canMove = true;
     bool doHitstun = false;
     Vector3 hitDirection;
     float hitForce;
     float stunDuration;
     Animator animator;
-
+    bool isDashing = false;
     void Start()
     {
         controller = this.GetComponentInChildren<CharacterController>();
     }
-
     
     void Update()
     {
@@ -51,6 +64,14 @@ public class Movement : MonoBehaviour
         float sprintMultiplier = 1;
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
             sprintMultiplier = speedMultiplier;
+        if (Input.GetKeyDown(dashKey) && !isDashing)
+        {
+            canMove = false;
+            doHitstun = false;
+            isDashing = true;
+            dashDirection = movementDir;
+            Invoke("EndHitstun", dashDuration);
+        }
         movementDir = new Vector3(Input.GetAxis("Vertical") * sprintMultiplier, 0, -Input.GetAxis("Horizontal") * sprintMultiplier);
     }
 
@@ -68,6 +89,12 @@ public class Movement : MonoBehaviour
         {
             controller.Move(hitForce * Time.deltaTime * hitDirection);
         }
+        else if (isDashing)
+        {
+            dashDirection = Vector3.Lerp(dashDirection, movementDir, dashTurnSpeed);
+            controller.Move(dashSpeed * Time.deltaTime * dashDirection.normalized);            
+        }
+
         //make gravity
         if (!controller.isGrounded)
         {
@@ -89,6 +116,7 @@ public class Movement : MonoBehaviour
     void EndHitstun()
     {
         doHitstun = false;
+        isDashing = false;
         canMove = true;
     }
     private string currentState;
