@@ -40,6 +40,8 @@ public class Movement : MonoBehaviour
     float stunDuration;
     Animator animator;
     bool isDashing = false;
+    float dashCooldown = 0;
+    bool canDash = true;
     void Start()
     {
         controller = this.GetComponentInChildren<CharacterController>();
@@ -64,11 +66,12 @@ public class Movement : MonoBehaviour
         float sprintMultiplier = 1;
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
             sprintMultiplier = speedMultiplier;
-        if (Input.GetKeyDown(dashKey) && !isDashing)
+        if (Input.GetKeyDown(dashKey) && !isDashing && canDash)
         {
             canMove = false;
             doHitstun = false;
             isDashing = true;
+            canDash = false;
             dashDirection = movementDir;
             Invoke("EndHitstun", dashDuration);
         }
@@ -118,6 +121,7 @@ public class Movement : MonoBehaviour
         doHitstun = false;
         isDashing = false;
         canMove = true;
+        canDash = true;
     }
     private string currentState;
     void ChangeAnimationState(string newState)
