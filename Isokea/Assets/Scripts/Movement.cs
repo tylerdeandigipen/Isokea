@@ -46,6 +46,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         controller = this.GetComponentInChildren<CharacterController>();
+        animator = this.GetComponentInChildren<Animator>();
     }
     
     void Update()
@@ -60,6 +61,7 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         DoMovements();
+        DoAnimations();
     }
 
     void GetInput()
@@ -143,18 +145,15 @@ public class Movement : MonoBehaviour
         {
             if (movementDir.z > 0) //moving left
             {
-                //ChangeAnimationState("player_up_left");
-                Debug.Log("up left");
+                ChangeAnimationState("Up_Left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                //ChangeAnimationState("player_up_right");
-                Debug.Log("up right");
+                ChangeAnimationState("Up_Right");
             }
             else //pure up
             {
-                //ChangeAnimationState("player_up");
-                Debug.Log("up");
+                //ChangeAnimationState("Up");
             }
 
         }
@@ -162,29 +161,28 @@ public class Movement : MonoBehaviour
         {
             if (movementDir.z > 0) //moving left
             {
-                //ChangeAnimationState("player_down_left");
-                Debug.Log("down left");
+                ChangeAnimationState("Down_Left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                //ChangeAnimationState("player_down_right");
-                Debug.Log("down right");
+                ChangeAnimationState("Down_Right");
             }
             else //pure down
             {
                 //ChangeAnimationState("player_down");
-                Debug.Log("down");
             }
         }
         else if (movementDir.z > 0) //moving left
         {
-            //ChangeAnimationState("player_left");
-            Debug.Log("left");
+            //ChangeAnimationState("Left");
         }
         else if (movementDir.z < 0) //moving right
         {
-            //ChangeAnimationState("player_right");
-            Debug.Log("right");
+            //ChangeAnimationState("Right");
+        }
+        else
+        {
+            ChangeAnimationState("Idle_Temp");
         }
     }
 }
