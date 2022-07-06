@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightTimeBetweenAttacks: 0.05
-  lightAttackDuration: 0.2
+  lightAttackDuration: 0.35
   lightForwardForce: 1
   lightComboDelay: 0.2
   lightAttackDurationEndCombo: 0.5
@@ -516,7 +516,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: -30
   far clip plane: 1000
   field of view: 60
   orthographic: 1
