@@ -150,6 +150,8 @@ public class Movement : MonoBehaviour
             {
                 if (isAttacking)
                     ChangeAnimationState("Attack_Up_Left");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Up_Left");
                 else
                     ChangeAnimationState("Up_Left");
             }
@@ -157,6 +159,8 @@ public class Movement : MonoBehaviour
             {
                 if (isAttacking)
                     ChangeAnimationState("Attack_Up_Right");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Up_Right");
                 else
                     ChangeAnimationState("Up_Right");
             }
@@ -172,6 +176,8 @@ public class Movement : MonoBehaviour
             {
                 if (isAttacking)
                     ChangeAnimationState("Attack_Down_Left");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Down_Left");
                 else
                     ChangeAnimationState("Down_Left");
             }
@@ -179,6 +185,8 @@ public class Movement : MonoBehaviour
             {
                 if (isAttacking)
                     ChangeAnimationState("Attack_Down_Right");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Down_Right");
                 else
                     ChangeAnimationState("Down_Right");
             }
