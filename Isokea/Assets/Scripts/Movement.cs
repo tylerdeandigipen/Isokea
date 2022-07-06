@@ -41,8 +41,11 @@ public class Movement : MonoBehaviour
     float hitForce;
     float stunDuration;
     Animator animator;
-    bool isDashing = false;
+    [HideInInspector]
+    public bool isDashing = false;
     bool canDash = true;
+    [HideInInspector]
+    public bool isAttacking = false;
     void Start()
     {
         controller = this.GetComponentInChildren<CharacterController>();
@@ -145,41 +148,53 @@ public class Movement : MonoBehaviour
         {
             if (movementDir.z > 0) //moving left
             {
-                ChangeAnimationState("Up_Left");
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Up_Left");
+                else
+                    ChangeAnimationState("Up_Left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                ChangeAnimationState("Up_Right");
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Up_Right");
+                else
+                    ChangeAnimationState("Up_Right");
             }
-            else //pure up
-            {
+           // else //pure up
+            //{
                 //ChangeAnimationState("Up");
-            }
+           // }
 
         }
         else if (movementDir.x < 0) //moving down
         {
             if (movementDir.z > 0) //moving left
             {
-                ChangeAnimationState("Down_Left");
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Down_Left");
+                else
+                    ChangeAnimationState("Down_Left");
             }
             else if (movementDir.z < 0) //moving right
             {
-                ChangeAnimationState("Down_Right");
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Down_Right");
+                else
+                    ChangeAnimationState("Down_Right");
             }
-            else //pure down
-            {
+            //else //pure down
+            //{
                 //ChangeAnimationState("player_down");
-            }
+          //  }
         }
-        else if (movementDir.z > 0) //moving left
-        {
+        //else if (movementDir.z > 0) //moving left
+        //{
             //ChangeAnimationState("Left");
-        }
-        else if (movementDir.z < 0) //moving right
-        {
+        //}
+        //else if (movementDir.z < 0) //moving right
+        //{
             //ChangeAnimationState("Right");
-        }
+        //}
         else
         {
             ChangeAnimationState("Idle_Temp");

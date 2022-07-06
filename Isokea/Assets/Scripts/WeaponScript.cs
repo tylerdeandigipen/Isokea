@@ -109,7 +109,7 @@ public class WeaponScript : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(movementDir);
             }
         }
-        if (Input.GetKeyDown(LightAttackKey) && canAttack)
+        if (Input.GetKeyDown(LightAttackKey) && canAttack && plMovement.isDashing == false)
         {
             if (canCombo = true && lightAttackNum >= comboThreshold)
             {
@@ -123,6 +123,7 @@ public class WeaponScript : MonoBehaviour
 
     void LightAttack()
     {
+        plMovement.isAttacking = true;
         canAttack = false;
         weaponObject.SetActive(true);
         lightAttackNum += 1;
@@ -132,6 +133,7 @@ public class WeaponScript : MonoBehaviour
     }
     void LightComboFinalAttack()
     {
+        plMovement.isAttacking = true;
         lightAttackNum = 0;
         canAttack = false;
         weaponObject.SetActive(true);
@@ -140,6 +142,7 @@ public class WeaponScript : MonoBehaviour
     }
     void EndAttack()
     {
+        plMovement.isAttacking = false;
         weaponObject.SetActive(false);
         Invoke("AllowAttack", lightTimeBetweenAttacks);
     }

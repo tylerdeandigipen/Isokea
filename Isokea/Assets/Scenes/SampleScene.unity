@@ -691,8 +691,8 @@ Transform:
   m_GameObject: {fileID: 1630541315}
   m_LocalRotation: {x: 0.17252511, y: 0.6857369, z: -0.16960332, w: 0.6864654}
   m_LocalPosition: {x: -0.0932, y: -0.1753, z: 0.391}
-  m_LocalScale: {x: 0.79, y: 0.9592858, z: 0.28214288}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.92, y: 0.9592858, z: 0.28214288}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1731110672}
   m_RootOrder: 0
@@ -863,6 +863,8 @@ MonoBehaviour:
   dashDirection: {x: 0, y: 0, z: 0}
   movementDir: {x: 0, y: 0, z: 0}
   weapon: {fileID: 151258640}
+  isDashing: 0
+  isAttacking: 0
 --- !u!4 &1731110672
 Transform:
   m_ObjectHideFlags: 0
