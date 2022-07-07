@@ -26,11 +26,19 @@ public class Movement : MonoBehaviour
     KeyCode dashKey = KeyCode.LeftShift;
     [SerializeField]
     float dashCooldown = .2f;
+    [SerializeField]
+    float numOfDashClones = 4;
     public Vector3 dashDirection;
 
     [Header("Misc")]
     [SerializeField]
     Vector3 movementDir = new Vector3(0,0,0);
+    [SerializeField]
+    float timeBetweenSteps = 1;
+    [SerializeField]
+    GameObject footStep;
+    [SerializeField]
+    GameObject footStepSpawnpoint;
     [SerializeField]
     GameObject weapon;
     [SerializeField]
@@ -48,8 +56,13 @@ public class Movement : MonoBehaviour
     bool canDash = true;
     [HideInInspector]
     public bool isAttacking = false;
+    float dashCloneTimer = 0;
+    float footStepTimer = 0;
+    bool isWalking;
+    TrailRenderer dashTrail;
     void Start()
     {
+        dashTrail = this.GetComponentInChildren<TrailRenderer>();
         controller = this.GetComponentInChildren<CharacterController>();
         animator = this.GetComponentInChildren<Animator>();
     }
@@ -87,7 +100,6 @@ public class Movement : MonoBehaviour
         isDashing = true;
         canDash = false;
         dashDirection = movementDir;
-        Instantiate(dashClone, controller.gameObject.transform.position, controller.gameObject.transform.rotation);
         Invoke("EndHitstun", dashDuration);
         Invoke("RefreshDash", dashDuration + dashCooldown);
     }
@@ -150,6 +162,7 @@ public class Movement : MonoBehaviour
 
     void DoAnimations()
     {
+        isWalking = false;
         if (movementDir.x > 0) //moving up
         {
             if (movementDir.z > 0) //moving left
@@ -159,7 +172,10 @@ public class Movement : MonoBehaviour
                 else if (isDashing)
                     ChangeAnimationState("Dash_Up_Left");
                 else
+                {
+                    isWalking = true;
                     ChangeAnimationState("Up_Left");
+                }
             }
             else if (movementDir.z < 0) //moving right
             {
@@ -168,7 +184,10 @@ public class Movement : MonoBehaviour
                 else if (isDashing)
                     ChangeAnimationState("Dash_Up_Right");
                 else
+                {
+                    isWalking = true;
                     ChangeAnimationState("Up_Right");
+                }
             }
            // else //pure up
             //{
@@ -185,7 +204,10 @@ public class Movement : MonoBehaviour
                 else if (isDashing)
                     ChangeAnimationState("Dash_Down_Left");
                 else
+                {
+                    isWalking = true;
                     ChangeAnimationState("Down_Left");
+                }
             }
             else if (movementDir.z < 0) //moving right
             {
@@ -194,7 +216,10 @@ public class Movement : MonoBehaviour
                 else if (isDashing)
                     ChangeAnimationState("Dash_Down_Right");
                 else
+                {
+                    isWalking = true;
                     ChangeAnimationState("Down_Right");
+                }
             }
             //else //pure down
             //{
@@ -214,9 +239,32 @@ public class Movement : MonoBehaviour
             ChangeAnimationState("Idle_Temp");
         }
 
+        //make dashclones
         if (isDashing)
-        { 
-        
+        {
+            dashTrail.emitting = true;
+            for (int i = 0; i < numOfDashClones; i++)
+            {
+                if (dashCloneTimer >= (dashDuration / numOfDashClones))
+                {
+                    Instantiate(dashClone, controller.gameObject.transform.position, controller.gameObject.transform.rotation);
+                    dashCloneTimer = 0;
+                }
+                else
+                    dashCloneTimer += Time.deltaTime;
+            }
+        }
+        else
+            dashTrail.emitting = false;
+        if (isWalking)
+        {
+            if (footStepTimer >= timeBetweenSteps)
+            {
+                Instantiate(footStep, footStepSpawnpoint.transform.position, Quaternion.identity);
+                footStepTimer = 0;
+            }
+            else
+                footStepTimer += Time.deltaTime;
         }
     }
 }
