@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour
     Vector3 movementDir = new Vector3(0,0,0);
     [SerializeField]
     GameObject weapon;
+    [SerializeField]
+    GameObject dashClone;
     float yVelocity = 0;
     CharacterController controller;
     bool canMove = true;
@@ -74,17 +76,21 @@ public class Movement : MonoBehaviour
             sprintMultiplier = speedMultiplier;
         if (Input.GetKeyDown(dashKey) && !isDashing && canDash)
         {
-            canMove = false;
-            doHitstun = false;
-            isDashing = true;
-            canDash = false;
-            dashDirection = movementDir;
-            Invoke("EndHitstun", dashDuration);
-            Invoke("RefreshDash", dashDuration + dashCooldown);
+            Dash();
         }
         movementDir = new Vector3(Input.GetAxis("Vertical") * sprintMultiplier, 0, -Input.GetAxis("Horizontal") * sprintMultiplier);
     }
-
+    void Dash()
+    {
+        canMove = false;
+        doHitstun = false;
+        isDashing = true;
+        canDash = false;
+        dashDirection = movementDir;
+        Instantiate(dashClone, controller.gameObject.transform.position, controller.gameObject.transform.rotation);
+        Invoke("EndHitstun", dashDuration);
+        Invoke("RefreshDash", dashDuration + dashCooldown);
+    }
     void DoMovements()
     {
         if (canMove)
@@ -206,6 +212,11 @@ public class Movement : MonoBehaviour
         else
         {
             ChangeAnimationState("Idle_Temp");
+        }
+
+        if (isDashing)
+        { 
+        
         }
     }
 }
