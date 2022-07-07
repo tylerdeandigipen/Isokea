@@ -172,7 +172,7 @@ MonoBehaviour:
   lightAttackDuration: 0.35
   lightForwardForce: 1
   lightComboDelay: 0.2
-  lightAttackDurationEndCombo: 0.5
+  lightAttackDurationEndCombo: 0.6
   lightForwardForceEndCombo: 0.5
   LightAttackKey: 323
   weaponObject: {fileID: 2046207656}
