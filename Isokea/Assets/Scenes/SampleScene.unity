@@ -1079,7 +1079,8 @@ MonoBehaviour:
   numOfDashClones: 2
   dashDirection: {x: 0, y: 0, z: 0}
   movementDir: {x: 0, y: 0, z: 0}
-  timeBetweenSteps: 0.2
+  timeBetweenSteps: 0.3
+  footStepVariation: 0.1
   footStep: {fileID: 8458013857630579631, guid: 0c6af31a107098f44943f640d214f49e, type: 3}
   footStepSpawnpoint: {fileID: 1272489735}
   weapon: {fileID: 151258640}

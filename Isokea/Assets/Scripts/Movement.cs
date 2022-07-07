@@ -36,6 +36,8 @@ public class Movement : MonoBehaviour
     [SerializeField]
     float timeBetweenSteps = 1;
     [SerializeField]
+    float footStepVariation = 1;
+    [SerializeField]
     GameObject footStep;
     [SerializeField]
     GameObject footStepSpawnpoint;
@@ -261,7 +263,7 @@ public class Movement : MonoBehaviour
             if (footStepTimer >= timeBetweenSteps)
             {
                 Instantiate(footStep, footStepSpawnpoint.transform.position, Quaternion.identity);
-                footStepTimer = 0;
+                footStepTimer = 0 + Random.Range(-footStepVariation, footStepVariation);
             }
             else
                 footStepTimer += Time.deltaTime;
