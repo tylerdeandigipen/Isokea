@@ -64,6 +64,7 @@ public class Movement : MonoBehaviour
     TrailRenderer dashTrail;
     void Start()
     {
+        numOfDashClones += 1;
         dashTrail = this.GetComponentInChildren<TrailRenderer>();
         controller = this.GetComponentInChildren<CharacterController>();
         animator = this.GetComponentInChildren<Animator>();
@@ -245,16 +246,13 @@ public class Movement : MonoBehaviour
         if (isDashing)
         {
             dashTrail.emitting = true;
-            for (int i = 0; i < numOfDashClones; i++)
+            if (dashCloneTimer >= (dashDuration / numOfDashClones))
             {
-                if (dashCloneTimer >= (dashDuration / numOfDashClones))
-                {
-                    Instantiate(dashClone, controller.gameObject.transform.position, controller.gameObject.transform.rotation);
-                    dashCloneTimer = 0;
-                }
-                else
-                    dashCloneTimer += Time.deltaTime;
+                Instantiate(dashClone, controller.gameObject.transform.position, controller.gameObject.transform.rotation);
+                dashCloneTimer = 0;
             }
+            else
+                dashCloneTimer += Time.deltaTime;
         }
         else
         {
