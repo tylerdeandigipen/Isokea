@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using CameraShake;
 public class Movement : MonoBehaviour
 {
     [Header("Normal Movement")]
@@ -88,8 +88,10 @@ public class Movement : MonoBehaviour
     void GetInput()
     {
         float sprintMultiplier = 1;
+        //sprint in case we want it
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
             sprintMultiplier = speedMultiplier;
+        //dash input
         if (Input.GetKeyDown(dashKey) && !isDashing && canDash)
         {
             Dash();
@@ -98,6 +100,7 @@ public class Movement : MonoBehaviour
     }
     void Dash()
     {
+        CameraShaker.Presets.ShortShake2D();
         canMove = false;
         doHitstun = false;
         isDashing = true;

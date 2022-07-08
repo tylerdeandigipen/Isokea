@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using CameraShake;
 public class WeaponScript : MonoBehaviour
 {
     [Header("Light Attack Settings")]
@@ -123,6 +123,7 @@ public class WeaponScript : MonoBehaviour
 
     void LightAttack()
     {
+        CameraShaker.Presets.ShortShake2D();
         plMovement.isAttacking = true;
         canAttack = false;
         weaponObject.SetActive(true);
@@ -133,6 +134,7 @@ public class WeaponScript : MonoBehaviour
     }
     void LightComboFinalAttack()
     {
+        CameraShaker.Presets.Explosion2D();
         plMovement.isAttacking = true;
         lightAttackNum = 0;
         canAttack = false;
