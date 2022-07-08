@@ -248,6 +248,7 @@ public class Movement : MonoBehaviour
         //make dashclones
         if (isDashing)
         {
+            add speed lines for extra effect
             dashTrail.emitting = true;
             if (dashCloneTimer >= (dashDuration / numOfDashClones))
             {
