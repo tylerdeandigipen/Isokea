@@ -257,8 +257,11 @@ public class Movement : MonoBehaviour
             }
         }
         else
+        {
+            dashCloneTimer = 0;
             dashTrail.emitting = false;
-        if (isWalking)
+        }
+        if (isWalking && controller.isGrounded)
         {
             if (footStepTimer >= timeBetweenSteps)
             {
