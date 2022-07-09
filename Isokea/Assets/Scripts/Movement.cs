@@ -45,6 +45,8 @@ public class Movement : MonoBehaviour
     GameObject weapon;
     [SerializeField]
     GameObject dashClone;
+    [SerializeField]
+    GameObject dashParticles;
     float yVelocity = 0;
     CharacterController controller;
     bool canMove = true;
@@ -248,7 +250,8 @@ public class Movement : MonoBehaviour
         //make dashclones
         if (isDashing)
         {
-            add speed lines for extra effect
+            //add speed lines for extra effect
+            dashParticles.SetActive(true);
             dashTrail.emitting = true;
             if (dashCloneTimer >= (dashDuration / numOfDashClones))
             {
@@ -260,6 +263,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            dashParticles.SetActive(false);
             dashCloneTimer = 0;
             dashTrail.emitting = false;
         }
