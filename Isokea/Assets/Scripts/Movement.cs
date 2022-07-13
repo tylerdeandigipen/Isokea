@@ -197,10 +197,19 @@ public class Movement : MonoBehaviour
                     ChangeAnimationState("Up_Right");
                 }
             }
-           // else //pure up
-            //{
+           else //pure up
+           {
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Up_Right");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Up_Right");
+                else
+                {
+                    isWalking = true;
+                    ChangeAnimationState("Up_Right");
+                }
                 //ChangeAnimationState("Up");
-           // }
+            }
 
         }
         else if (movementDir.x < 0) //moving down
@@ -229,19 +238,46 @@ public class Movement : MonoBehaviour
                     ChangeAnimationState("Down_Right");
                 }
             }
-            //else //pure down
-            //{
+            else //pure down
+            {
+                if (isAttacking)
+                    ChangeAnimationState("Attack_Down_Right");
+                else if (isDashing)
+                    ChangeAnimationState("Dash_Down_Right");
+                else
+                {
+                    isWalking = true;
+                    ChangeAnimationState("Down_Right");
+                }
                 //ChangeAnimationState("player_down");
-          //  }
+            }
         }
-        //else if (movementDir.z > 0) //moving left
-        //{
+        else if (movementDir.z > 0) //moving left
+        {
+            if (isAttacking)
+                ChangeAnimationState("Attack_Down_Left");
+            else if (isDashing)
+                ChangeAnimationState("Dash_Down_Left");
+            else
+            {
+                isWalking = true;
+                ChangeAnimationState("Down_Left");
+            }
             //ChangeAnimationState("Left");
-        //}
-        //else if (movementDir.z < 0) //moving right
-        //{
+        }
+        else if (movementDir.z < 0) //moving right
+        {
+            if (isAttacking)
+                ChangeAnimationState("Attack_Down_Right");
+            else if (isDashing)
+                ChangeAnimationState("Dash_Down_Right");
+            else
+            {
+                isWalking = true;
+                ChangeAnimationState("Down_Right");
+            }
             //ChangeAnimationState("Right");
-        //}
+        }
         else
         {
             ChangeAnimationState("Idle_Temp");
