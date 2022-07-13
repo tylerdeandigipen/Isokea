@@ -47,7 +47,7 @@ public class Movement : MonoBehaviour
     GameObject dashClone;
     [SerializeField]
     GameObject dashParticles;
-    float yVelocity = 0;
+    public float yVelocity = 0;
     CharacterController controller;
     bool canMove = true;
     bool doHitstun = false;
@@ -210,7 +210,6 @@ public class Movement : MonoBehaviour
                 }
                 //ChangeAnimationState("Up");
             }
-
         }
         else if (movementDir.x < 0) //moving down
         {
