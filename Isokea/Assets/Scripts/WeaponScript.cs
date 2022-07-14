@@ -17,6 +17,10 @@ public class WeaponScript : MonoBehaviour
     float lightAttackDurationEndCombo = 1;
     [SerializeField]
     float lightForwardForceEndCombo = 1;
+    [SerializeField]
+    public float knockbackForce = 1;
+    [SerializeField]
+    public float upForce = 1;
 
     [Header("Keybinds")]
     [SerializeField]
@@ -35,7 +39,8 @@ public class WeaponScript : MonoBehaviour
     int lightAttackNum;
     float timer = 0;
     bool canAttack = true;
-    Vector3 movementDir = new Vector3(0,0,1);
+    [HideInInspector]
+    public Vector3 movementDir = new Vector3(0,0,1);
     bool canCombo = false;
     // Start is called before the first frame update
     void Start()

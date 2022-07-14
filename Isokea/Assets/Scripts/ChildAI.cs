@@ -27,12 +27,14 @@ public class ChildAI : MonoBehaviour
     [SerializeField]
     GameObject footStepSpawnpoint;
     float footStepTimer = 0;
+    Rigidbody rb;
     private Vector3 moveDir;
     private Vector3 prevDir;
     private Vector3 prevPos;
     // Start is called before the first frame update
     void Start()
     {
+        rb = this.GetComponent<Rigidbody>();
         player = FindObjectOfType<PlayerSprite>().gameObject;
         agent = this.GetComponent<NavMeshAgent>();
     }
@@ -40,20 +42,29 @@ public class ChildAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        if (playerInSightRange && !playerInAttackRange)
-            ChasePlayer();
-        else if (playerInSightRange && playerInAttackRange)
-            AttackPlayer();
-        else
-            isWalking = false;
+        if (agent.enabled == true)
+        {
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            if (playerInSightRange && !playerInAttackRange)
+                ChasePlayer();
+            else if (playerInSightRange && playerInAttackRange)
+                AttackPlayer();
+            else
+                isWalking = false;
+        }
         prevDir = (transform.position + moveDir) - prevPos;
         prevDir = prevDir.normalized;
         prevPos = transform.position;
         DoAnimations();
     }
 
+    public void TakeKnockback(float knockbackForce, Vector3 knockbackDirection)
+    {
+        agent.enabled = false;
+        rb.isKinematic = false;
+        rb.AddForce(knockbackDirection * knockbackForce);
+    }
     void ChasePlayer()
     {
         agent.SetDestination(player.transform.position);
@@ -176,6 +187,26 @@ public class ChildAI : MonoBehaviour
             }
             else
                 footStepTimer += Time.deltaTime;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "playerWeapon")
+        {
+            WeaponScript temp = other.GetComponentInParent<WeaponScript>();
+            TakeKnockback(temp.knockbackForce, new Vector3(temp.movementDir.x, temp.upForce, temp.movementDir.z));
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("grounded");
+        if (collision.gameObject.layer == groundLayer)
+        {
+            Debug.Log("gaming");
+            agent.enabled = true;
+            rb.isKinematic = true;
         }
     }
 }
