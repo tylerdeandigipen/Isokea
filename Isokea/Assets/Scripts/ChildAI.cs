@@ -195,16 +195,14 @@ public class ChildAI : MonoBehaviour
         if (other.gameObject.tag == "playerWeapon")
         {
             WeaponScript temp = other.GetComponentInParent<WeaponScript>();
-            TakeKnockback(temp.knockbackForce, new Vector3(temp.movementDir.x, temp.upForce, temp.movementDir.z));
+            TakeKnockback(1, new Vector3(temp.movementDir.x * temp.knockbackForce, temp.upForce, temp.movementDir.z * temp.knockbackForce));
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        Debug.Log("grounded");
-        if (collision.gameObject.layer == groundLayer)
+        if (collision.gameObject.tag == "ground")
         {
-            Debug.Log("gaming");
             agent.enabled = true;
             rb.isKinematic = true;
         }
