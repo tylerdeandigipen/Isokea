@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     bool canSprint = false;
     [SerializeField]
     int _gravity = 1;
-    
+
     [Header("Dash Settings")]
     [SerializeField]
     float dashSpeed = 1;
@@ -30,9 +30,19 @@ public class Movement : MonoBehaviour
     float numOfDashClones = 4;
     public Vector3 dashDirection;
 
+    [Header("Jumping")]
+    [SerializeField]
+    float jumpHeight = 1;
+    [SerializeField]
+    float jumpCheckDistance = 1;
+    [SerializeField]
+    LayerMask groundLayer;
+
     [Header("Misc")]
     [SerializeField]
-    Vector3 movementDir = new Vector3(0,0,0);
+    Vector3 movementDir = new Vector3(0, 0, 0);
+    [SerializeField]
+    float groundCheckDistance = 1;
     [SerializeField]
     float timeBetweenSteps = 1;
     [SerializeField]
@@ -64,12 +74,15 @@ public class Movement : MonoBehaviour
     float footStepTimer = 0;
     bool isWalking;
     TrailRenderer dashTrail;
+    int playerLayer;
+    bool isGrounded;
     void Start()
-    {
+    { 
         numOfDashClones += 1;
         dashTrail = this.GetComponentInChildren<TrailRenderer>();
         controller = this.GetComponentInChildren<CharacterController>();
         animator = this.GetComponentInChildren<Animator>();
+        playerLayer = controller.gameObject.layer;
     }
     
     void Update()
@@ -83,6 +96,7 @@ public class Movement : MonoBehaviour
     }
     void FixedUpdate()
     {
+        JumpCheck();
         DoMovements();
         DoAnimations();
     }
@@ -108,6 +122,7 @@ public class Movement : MonoBehaviour
         isDashing = true;
         canDash = false;
         dashDirection = movementDir;
+        controller.gameObject.layer = 8;
         Invoke("EndHitstun", dashDuration);
         Invoke("RefreshDash", dashDuration + dashCooldown);
     }
@@ -131,14 +146,49 @@ public class Movement : MonoBehaviour
             controller.Move(dashSpeed * Time.deltaTime * dashDirection.normalized);            
         }
 
+        //check if grounded
+        RaycastHit hit;
+        Debug.DrawRay(controller.transform.position, transform.TransformDirection(Vector3.down) * groundCheckDistance, Color.red);
+        if (Physics.Raycast(controller.transform.position, transform.TransformDirection(Vector3.down) * groundCheckDistance, out hit, Mathf.Infinity, groundLayer))
+        {
+            if (hit.distance < groundCheckDistance)
+            {
+                isGrounded = true;
+            }
+            else
+                isGrounded = false;
+        }
+        else
+        {
+            isGrounded = false;
+        }
         //make gravity
-        if (!controller.isGrounded)
+        if (!isGrounded)
         {
             yVelocity -= _gravity; 
             controller.Move(new Vector3(0, yVelocity, 0) * Time.deltaTime);
         }
         else
             yVelocity = 0;
+    }
+    void JumpCheck()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(controller.transform.position + (movementDir * 2), transform.TransformDirection(Vector3.down) * jumpCheckDistance, Color.green);
+
+        if (Physics.Raycast(controller.transform.position + (movementDir * 2), transform.TransformDirection(Vector3.down) * jumpCheckDistance, out hit, Mathf.Infinity, groundLayer))
+        {
+            if (hit.distance > jumpCheckDistance && isGrounded && !isDashing)
+            {
+                Jump();
+            }
+        }
+        else if (isGrounded && !isDashing)
+            Jump();
+    }
+    void Jump()
+    {
+        yVelocity = jumpHeight;
     }
     public void EnterHitstun(Vector3 hitDirection_, float hitForce_, float stunDuration_)
     {
@@ -151,6 +201,7 @@ public class Movement : MonoBehaviour
     }
     void EndHitstun()
     {
+        controller.gameObject.layer = playerLayer; 
         doHitstun = false;
         isDashing = false;
         canMove = true;
@@ -302,7 +353,7 @@ public class Movement : MonoBehaviour
             dashCloneTimer = 0;
             dashTrail.emitting = false;
         }
-        if (isWalking && controller.isGrounded)
+        if (isWalking && isGrounded)
         {
             if (footStepTimer >= timeBetweenSteps)
             {

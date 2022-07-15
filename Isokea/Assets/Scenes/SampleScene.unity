@@ -177,7 +177,7 @@ MonoBehaviour:
   lightForwardForceEndCombo: 0.5
   knockbackForce: 1500
   upForce: 750
-  LightAttackKey: 323
+  LightAttackKey: 32
   weaponObject: {fileID: 2046207656}
   playerGameobject: {fileID: 1630541315}
   plMovement: {fileID: 1731110671}
@@ -1081,7 +1081,13 @@ MonoBehaviour:
   dashCooldown: 0.3
   numOfDashClones: 5
   dashDirection: {x: 0, y: 0, z: 0}
+  jumpHeight: 25
+  jumpCheckDistance: 4
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   movementDir: {x: 0, y: 0, z: 0}
+  groundCheckDistance: 3.25
   timeBetweenSteps: 0.3
   footStepVariation: 0.1
   footStep: {fileID: 8458013857630579631, guid: 0c6af31a107098f44943f640d214f49e, type: 3}
@@ -1360,6 +1366,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4484225292439970415, guid: e80e7b10a6dccdd41b365a84f3600427, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4484225293475571993, guid: e80e7b10a6dccdd41b365a84f3600427, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1407,6 +1417,10 @@ PrefabInstance:
     - target: {fileID: 4484225293475571995, guid: e80e7b10a6dccdd41b365a84f3600427, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484225293620907893, guid: e80e7b10a6dccdd41b365a84f3600427, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e80e7b10a6dccdd41b365a84f3600427, type: 3}
