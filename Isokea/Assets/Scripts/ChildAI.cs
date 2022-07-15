@@ -17,6 +17,8 @@ public class ChildAI : MonoBehaviour
     Animator animator;
     private string currentState;
     [SerializeField]
+    float groundCheckDistance = 1;
+    [SerializeField]
     Vector3 movementDir;
     [SerializeField]
     float timeBetweenSteps = 1;
@@ -28,6 +30,7 @@ public class ChildAI : MonoBehaviour
     GameObject footStepSpawnpoint;
     float footStepTimer = 0;
     Rigidbody rb;
+    bool isGrounded;
     private Vector3 moveDir;
     private Vector3 prevDir;
     private Vector3 prevPos;
@@ -59,6 +62,32 @@ public class ChildAI : MonoBehaviour
         DoAnimations();
     }
 
+    void GroundCheck()
+    {
+        //check if grounded
+        RaycastHit hit;
+        Debug.DrawRay(this.transform.position, transform.TransformDirection(Vector3.down) * groundCheckDistance, Color.red);
+        if (Physics.Raycast(this.transform.position, transform.TransformDirection(Vector3.down) * groundCheckDistance, out hit, Mathf.Infinity, groundLayer))
+        {
+            if (hit.distance < groundCheckDistance)
+            {
+                isGrounded = true;
+            }
+            else
+                isGrounded = false;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+        //activate rb is not grounded
+        if (!isGrounded)
+        {
+            agent.enabled = false;
+            rb.isKinematic = false;
+        }
+    }
     public void TakeKnockback(float knockbackForce, Vector3 knockbackDirection)
     {
         agent.enabled = false;
