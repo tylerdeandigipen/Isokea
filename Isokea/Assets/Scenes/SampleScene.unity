@@ -175,8 +175,8 @@ MonoBehaviour:
   lightComboDelay: 0.2
   lightAttackDurationEndCombo: 0.5
   lightForwardForceEndCombo: 0.5
-  knockbackForce: 2000
-  upForce: 500
+  knockbackForce: 1500
+  upForce: 750
   LightAttackKey: 323
   weaponObject: {fileID: 2046207656}
   playerGameobject: {fileID: 1630541315}
