@@ -177,9 +177,13 @@ MonoBehaviour:
   lightForwardForceEndCombo: 0.5
   knockbackForce: 1500
   upForce: 750
+  projectileSpeed: 20
+  shootDelay: 0.2
   LightAttackKey: 32
+  RangedAttackKey: 306
   weaponObject: {fileID: 2046207656}
   playerGameobject: {fileID: 1630541315}
+  projectile: {fileID: 2517431494860201619, guid: 860d7c38b05d11a49bf25d82d655b590, type: 3}
   plMovement: {fileID: 1731110671}
   movementDir: {x: 0, y: 0, z: 1}
 --- !u!1 &521964362
@@ -1369,7 +1373,7 @@ MonoBehaviour:
   moveSpeed: 12.5
   speedMultiplier: 1.5
   canSprint: 0
-  _gravity: 2
+  _gravity: 1.5
   dashSpeed: 30
   dashTurnSpeed: 0.1
   dashDuration: 0.5
@@ -1377,7 +1381,7 @@ MonoBehaviour:
   dashCooldown: 0.3
   numOfDashClones: 5
   dashDirection: {x: 0, y: 0, z: 0}
-  jumpHeight: 25
+  jumpHeight: 20
   jumpCheckDistance: 4
   groundLayer:
     serializedVersion: 2
@@ -1392,8 +1396,11 @@ MonoBehaviour:
   dashClone: {fileID: 77865901700184685, guid: 9cdb210b2b17c6e4884a084ba21a3cf6, type: 3}
   dashParticles: {fileID: 5092304065065178375}
   yVelocity: 0
+  canMove: 1
   isDashing: 0
   isAttacking: 0
+  isGrounded: 0
+  isShooting: 0
 --- !u!4 &1731110672
 Transform:
   m_ObjectHideFlags: 0
