@@ -53,6 +53,8 @@ public class ChildAI : MonoBehaviour
                 ChasePlayer();
             else if (playerInSightRange && playerInAttackRange)
                 AttackPlayer();
+            else if (agent.velocity != Vector3.zero)
+                isWalking = true;
             else
                 isWalking = false;
         }
@@ -83,9 +85,9 @@ public class ChildAI : MonoBehaviour
 
         //activate rb is not grounded
         if (!isGrounded)
-        {
-            agent.enabled = false;
-            rb.isKinematic = false;
+        { 
+        agent.enabled = false;
+        rb.isKinematic = false;
         }
     }
     public void TakeKnockback(float knockbackForce, Vector3 knockbackDirection)

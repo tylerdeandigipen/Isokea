@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
     [SerializeField]
     bool canSprint = false;
     [SerializeField]
-    int _gravity = 1;
+    float _gravity = 1;
 
     [Header("Dash Settings")]
     [SerializeField]
@@ -59,7 +59,8 @@ public class Movement : MonoBehaviour
     GameObject dashParticles;
     public float yVelocity = 0;
     CharacterController controller;
-    bool canMove = true;
+    [HideInInspector]
+    public bool canMove = true;
     bool doHitstun = false;
     Vector3 hitDirection;
     float hitForce;
@@ -75,7 +76,10 @@ public class Movement : MonoBehaviour
     bool isWalking;
     TrailRenderer dashTrail;
     int playerLayer;
-    bool isGrounded;
+    [HideInInspector]
+    public bool isGrounded;
+    [HideInInspector]
+    public bool isShooting;
     void Start()
     { 
         numOfDashClones += 1;
@@ -108,7 +112,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
             sprintMultiplier = speedMultiplier;
         //dash input
-        if (Input.GetKeyDown(dashKey) && !isDashing && canDash)
+        if (Input.GetKeyDown(dashKey) && !isDashing && canDash && isGrounded && movementDir != Vector3.zero)
         {
             Dash();
         }
@@ -128,7 +132,7 @@ public class Movement : MonoBehaviour
     }
     void DoMovements()
     {
-        if (canMove)
+        if (canMove && !isShooting)
         {
             controller.Move(moveSpeed * Time.deltaTime * movementDir);
         }
