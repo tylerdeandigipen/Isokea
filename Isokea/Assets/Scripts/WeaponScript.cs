@@ -86,44 +86,9 @@ public class WeaponScript : MonoBehaviour
     {
         if (canAttack) //check to freeze rotation when attacking 
         {
-            if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    if (Input.GetKey(KeyCode.A))
-                    {
-                        movementDir = new Vector3(1, 0, 1);
-                    }
-                    else if (Input.GetKey(KeyCode.D))
-                    {
-                        movementDir = new Vector3(1, 0, -1);
-                    }
-                    else
-                        movementDir = new Vector3(1, 0, 0);
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    if (Input.GetKey(KeyCode.A))
-                    {
-                        movementDir = new Vector3(-1, 0, 1);
-                    }
-                    else if (Input.GetKey(KeyCode.D))
-                    {
-                        movementDir = new Vector3(-1, 0, -1);
-                    }
-                    else
-                        movementDir = new Vector3(-1, 0, 0);
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    movementDir = new Vector3(0, 0, 1);
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    movementDir = new Vector3(0, 0, -1);
-                }
-                transform.rotation = Quaternion.LookRotation(movementDir);
-            }
+            movementDir = new Vector3(Input.GetAxisRaw("Vertical"), 0, -Input.GetAxisRaw("Horizontal"));
+            if(movementDir != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(movementDir);     
         }
 
         if (Input.GetKeyDown(LightAttackKey) && canAttack && !plMovement.isDashing && plMovement.isGrounded)
@@ -160,7 +125,6 @@ public class WeaponScript : MonoBehaviour
 
     void LightAttack()
     {
-        CameraShaker.Presets.ShortShake2D();
         plMovement.isAttacking = true;
         canAttack = false;
         weaponObject.SetActive(true);
@@ -171,7 +135,6 @@ public class WeaponScript : MonoBehaviour
     }
     void LightComboFinalAttack()
     {
-        CameraShaker.Presets.Explosion2D();
         plMovement.isAttacking = true;
         lightAttackNum = 0;
         canAttack = false;

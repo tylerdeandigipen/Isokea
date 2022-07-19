@@ -1098,7 +1098,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: -0.14, z: 0}
 --- !u!95 &1630541322
 Animator:
@@ -1370,13 +1370,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6fe9775b3c758344a07f51c37773e13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12.5
+  moveSpeed: 15
   speedMultiplier: 1.5
   canSprint: 0
   _gravity: 1.5
   dashSpeed: 30
   dashTurnSpeed: 0.1
-  dashDuration: 0.5
+  dashDuration: 0.4
   dashKey: 304
   dashCooldown: 0.3
   numOfDashClones: 5
