@@ -34,6 +34,7 @@ public class ChildAI : MonoBehaviour
     private Vector3 moveDir;
     private Vector3 prevDir;
     private Vector3 prevPos;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -227,6 +228,11 @@ public class ChildAI : MonoBehaviour
         {
             WeaponScript temp = other.GetComponentInParent<WeaponScript>();
             TakeKnockback(1, new Vector3(temp.movementDir.x * temp.knockbackForce, temp.upForce, temp.movementDir.z * temp.knockbackForce));
+        }
+        if (other.gameObject.tag == "playerProjectile")
+        {
+            bulletScript temp = other.GetComponent<bulletScript>();
+            TakeKnockback(1, temp.gameObject.GetComponent<Rigidbody>().velocity.normalized * temp.bulletKnockback);
         }
     }
 
