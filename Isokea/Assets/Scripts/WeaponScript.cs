@@ -27,6 +27,8 @@ public class WeaponScript : MonoBehaviour
     float projectileSpeed = 20;
     [SerializeField]
     float shootDelay = 1;
+    [SerializeField]
+    float shotSpread = 1;
 
     [Header("Keybinds")]
     [SerializeField]
@@ -101,7 +103,7 @@ public class WeaponScript : MonoBehaviour
                 LightAttack();
         }
 
-        if (Input.GetKey(RangedAttackKey) && canAttack && !plMovement.isDashing && plMovement.isGrounded)
+        if (Input.GetKey(RangedAttackKey) && canAttack && !plMovement.isDashing && plMovement.isGrounded && new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal")) != Vector3.zero)
         {
             plMovement.isShooting = true;
             if (shootingTimer > shootDelay)
@@ -118,9 +120,10 @@ public class WeaponScript : MonoBehaviour
     }
     void RangedAttack()
     {
-        Vector3 lookDir = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal"));
+        Vector3 lookDir = new Vector3(Input.GetAxis("Vertical") + Random.Range(-shotSpread, shotSpread), 0, -Input.GetAxis("Horizontal") +Random.Range(-shotSpread, shotSpread));
+        lookDir = lookDir.normalized;
         GameObject bullet = Instantiate(projectile, playerGameobject.transform.position + lookDir, Quaternion.Euler(lookDir));
-        bullet.GetComponent<Rigidbody>().velocity = transform.forward * projectileSpeed;
+        bullet.GetComponent<Rigidbody>().velocity = lookDir * projectileSpeed;
     }
 
     void LightAttack()
