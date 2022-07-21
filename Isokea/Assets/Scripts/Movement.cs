@@ -50,6 +50,8 @@ public class Movement : MonoBehaviour
     [SerializeField]
     GameObject footStep;
     [SerializeField]
+    GameObject jumpEffect;
+    [SerializeField]
     GameObject footStepSpawnpoint;
     [SerializeField]
     GameObject weapon;
@@ -80,6 +82,8 @@ public class Movement : MonoBehaviour
     public bool isGrounded;
     [HideInInspector]
     public bool isShooting;
+    [SerializeField]
+    GameObject dropShadow;
     void Start()
     { 
         numOfDashClones += 1;
@@ -112,7 +116,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && canSprint)
             sprintMultiplier = speedMultiplier;
         //dash input
-        if (Input.GetKeyDown(dashKey) && !isDashing && canDash && isGrounded && movementDir != Vector3.zero)
+        if (Input.GetKeyDown(dashKey) && !isDashing && canDash && isGrounded && movementDir != Vector3.zero && !isShooting)
         {
             Dash();
         }
@@ -158,6 +162,9 @@ public class Movement : MonoBehaviour
             if (hit.distance < groundCheckDistance)
             {
                 isGrounded = true;
+                controller.Move(new Vector3(0, -20, 0) * Time.deltaTime);
+                dropShadow.transform.position = new Vector3(hit.point.x, hit.point.y + .1f, hit.point.z);
+                dropShadow.transform.rotation = Quaternion.Euler(hit.normal);
             }
             else
                 isGrounded = false;
@@ -175,6 +182,7 @@ public class Movement : MonoBehaviour
         else
             yVelocity = 0;
     }
+
     void JumpCheck()
     {
         RaycastHit hit;
@@ -191,7 +199,8 @@ public class Movement : MonoBehaviour
             Jump();
     }
     void Jump()
-    {
+    {       
+        Instantiate(jumpEffect, footStepSpawnpoint.transform.position, Quaternion.identity);
         yVelocity = jumpHeight;
     }
     public void EnterHitstun(Vector3 hitDirection_, float hitForce_, float stunDuration_)

@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 public class ChildAI : MonoBehaviour
 {
+    [SerializeField]
+    float maxHealth = 10;
+    [SerializeField]
+    public float currentHealth;
     [HideInInspector]
     public NavMeshAgent agent;
     [HideInInspector]
@@ -13,6 +17,10 @@ public class ChildAI : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
     public float sightRange, attackRange;
     bool isWalking, isAttacking = false;
+    [SerializeField]
+    float maxPoise = 1;
+    [SerializeField]
+    float flashDuration = .05f;
     [SerializeField]
     Animator animator;
     private string currentState;
@@ -34,10 +42,20 @@ public class ChildAI : MonoBehaviour
     private Vector3 moveDir;
     private Vector3 prevDir;
     private Vector3 prevPos;
-    
+    HitStop hitstopScript;
+    bool isColliding;
+    [SerializeField]
+    SpriteRenderer spRenderer;
+    [SerializeField]
+    Material flashMat;
+    Material normalMat;
+    float currentPoise;
     // Start is called before the first frame update
     void Start()
     {
+        normalMat = spRenderer.material;
+        currentHealth = maxHealth;
+        hitstopScript = FindObjectOfType<HitStop>();
         rb = this.GetComponent<Rigidbody>();
         player = FindObjectOfType<PlayerSprite>().gameObject;
         agent = this.GetComponent<NavMeshAgent>();
@@ -46,6 +64,7 @@ public class ChildAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GotAttacked -= Time.deltaTime;
         if (agent.enabled == true)
         {
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
@@ -95,7 +114,17 @@ public class ChildAI : MonoBehaviour
     {
         agent.enabled = false;
         rb.isKinematic = false;
-        rb.AddForce(knockbackDirection * knockbackForce);
+        DamageFlash();
+        if (currentPoise <= 0)
+        {
+            rb.AddForce(knockbackDirection * knockbackForce);
+            currentPoise = maxPoise;
+
+        }
+        else
+        {
+            currentPoise -= knockbackDirection.magnitude;
+        }
     }
     void ChasePlayer()
     {
@@ -221,21 +250,60 @@ public class ChildAI : MonoBehaviour
                 footStepTimer += Time.deltaTime;
         }
     }
+    void DamageFlash()
+    {
+        spRenderer.material = flashMat;
+        StartCoroutine(ResetColor(flashDuration));
+    }
+    public void TakeDamage(float damage)
+    {
+        if (currentHealth > 0)
+        {
+            currentHealth -= damage;
+        }
 
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+
+    void Death()
+    {
+        Destroy(this.gameObject.transform.parent.gameObject);
+    }
+    IEnumerator ResetColor(float duration)
+    {
+        yield return new WaitForSecondsRealtime(duration);
+        spRenderer.material = normalMat;
+    }
+    public float GotAttackedDelay = 0.2f;//seconds
+    float GotAttacked = 0f;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "playerWeapon")
-        {
+        {            
             WeaponScript temp = other.GetComponentInParent<WeaponScript>();
-            TakeKnockback(1, new Vector3(temp.movementDir.x * temp.knockbackForce, temp.upForce, temp.movementDir.z * temp.knockbackForce));
+            if (GotAttacked <= 0)
+            {
+                if (temp.movementDir == Vector3.zero)
+                {
+                    TakeKnockback(1, other.transform.parent.transform.rotation.eulerAngles.normalized * temp.knockbackForce);
+                }
+                else
+                    TakeKnockback(1, new Vector3(temp.movementDir.x * temp.knockbackForce, temp.upForce, temp.movementDir.z * temp.knockbackForce));
+                TakeDamage(temp.currentDamage);
+                hitstopScript.Stop(temp.hitstopDuration);
+                GotAttacked = GotAttackedDelay;
+            }
         }
         if (other.gameObject.tag == "playerProjectile")
         {
             bulletScript temp = other.GetComponent<bulletScript>();
+            TakeDamage(temp.damage);
             TakeKnockback(1, temp.gameObject.GetComponent<Rigidbody>().velocity.normalized * temp.bulletKnockback);
         }
     }
-
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.tag == "ground")

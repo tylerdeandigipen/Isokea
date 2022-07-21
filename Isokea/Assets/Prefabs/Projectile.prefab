@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletKnockback: 750
+  damage: 7.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 8

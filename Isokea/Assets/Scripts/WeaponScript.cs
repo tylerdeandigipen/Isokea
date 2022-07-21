@@ -14,6 +14,12 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     float lightComboDelay = .2f;
     [SerializeField]
+    float lightDamage;
+    [SerializeField]
+    float lightFinalDamage;
+    [SerializeField]
+    public float hitstopDuration;
+    [SerializeField]
     float lightAttackDurationEndCombo = 1;
     [SerializeField]
     float lightForwardForceEndCombo = 1;
@@ -46,7 +52,9 @@ public class WeaponScript : MonoBehaviour
     [SerializeField]
     Movement plMovement;
 
-
+    [HideInInspector]
+    public float currentDamage;
+    public Vector3 rotToVector;
     int comboThreshold = 2;
     int lightAttackNum;
     float timer = 0;
@@ -64,6 +72,7 @@ public class WeaponScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rotToVector = transform.rotation.eulerAngles.normalized;
         this.transform.position = playerGameobject.transform.position;
         GetInput();
         ComboTimer();
@@ -93,7 +102,7 @@ public class WeaponScript : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(movementDir);     
         }
 
-        if (Input.GetKeyDown(LightAttackKey) && canAttack && !plMovement.isDashing && plMovement.isGrounded)
+        if (Input.GetKeyDown(LightAttackKey) && canAttack && !plMovement.isDashing && plMovement.isGrounded && !plMovement.isShooting)
         {
             if (canCombo = true && lightAttackNum >= comboThreshold)
             {
@@ -128,21 +137,23 @@ public class WeaponScript : MonoBehaviour
 
     void LightAttack()
     {
+        currentDamage = lightDamage;
         plMovement.isAttacking = true;
         canAttack = false;
         weaponObject.SetActive(true);
         lightAttackNum += 1;
         timer = 0;
-        plMovement.EnterHitstun(movementDir, lightForwardForce, lightAttackDuration);
+        plMovement.EnterHitstun(transform.rotation.eulerAngles.normalized, lightForwardForce, lightAttackDuration);
         Invoke("EndAttack", lightAttackDuration);
     }
     void LightComboFinalAttack()
     {
+        currentDamage = lightFinalDamage;
         plMovement.isAttacking = true;
         lightAttackNum = 0;
         canAttack = false;
         weaponObject.SetActive(true);
-        plMovement.EnterHitstun(movementDir, lightForwardForceEndCombo, lightAttackDurationEndCombo);
+        plMovement.EnterHitstun(transform.rotation.eulerAngles.normalized, lightForwardForceEndCombo, lightAttackDurationEndCombo);
         Invoke("EndAttack", lightAttackDurationEndCombo);
     }
     void EndAttack()

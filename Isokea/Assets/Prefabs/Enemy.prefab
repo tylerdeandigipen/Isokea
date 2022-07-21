@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa585be6b814f1946aaaed1a8ef6bc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 75
+  currentHealth: 0
   agent: {fileID: 0}
   player: {fileID: 0}
   groundLayer:
@@ -148,12 +150,18 @@ MonoBehaviour:
   playerInAttackRange: 0
   sightRange: 20
   attackRange: 2
+  maxPoise: 4000
+  flashDuration: 0.1
   animator: {fileID: 4484225293907658059}
+  groundCheckDistance: 1
   movementDir: {x: 0, y: 0, z: 0}
   timeBetweenSteps: 0.3
   footStepVariation: 0.05
   footStep: {fileID: 8458013857630579631, guid: 0c6af31a107098f44943f640d214f49e, type: 3}
   footStepSpawnpoint: {fileID: 4484225293620907893}
+  spRenderer: {fileID: 4484225293907658060}
+  flashMat: {fileID: 2100000, guid: 5ee2e583be2e67949887e42df58a7581, type: 2}
+  GotAttackedDelay: 0.15
 --- !u!54 &4484225292439970407
 Rigidbody:
   m_ObjectHideFlags: 0

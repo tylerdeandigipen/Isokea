@@ -6,6 +6,8 @@ public class bulletScript : MonoBehaviour
 {
     public float bulletKnockback;
     [SerializeField]
+    public float damage;
+    [SerializeField]
     LayerMask playerLayer;
     // Start is called before the first frame update
     void Start()
