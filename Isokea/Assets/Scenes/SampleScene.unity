@@ -184,7 +184,7 @@ MonoBehaviour:
   shootDelay: 0.2
   shotSpread: 0.2
   LightAttackKey: 32
-  RangedAttackKey: 306
+  RangedAttackKey: 303
   weaponObject: {fileID: 2046207656}
   playerGameobject: {fileID: 1630541315}
   projectile: {fileID: 2517431494860201619, guid: 860d7c38b05d11a49bf25d82d655b590, type: 3}
@@ -202,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204186407}
   - component: {fileID: 204186408}
-  - component: {fileID: 204186409}
+  - component: {fileID: 204186410}
   m_Layer: 0
   m_Name: DropShadow
   m_TagString: Untagged
@@ -217,14 +217,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204186406}
-  m_LocalRotation: {x: -0.010119543, y: 0.010119558, z: -0.7070344, w: 0.7070344}
-  m_LocalPosition: {x: -2.3497841, y: -5.8129487, z: -1.0948201}
-  m_LocalScale: {x: 1.3669062, y: 1.3669069, z: 1.3669063}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -1.54, y: -5.81, z: -0.53}
+  m_LocalScale: {x: 1.3669066, y: 1.3669074, z: 1.3669062}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1731110672}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 1.64, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!119 &204186408
 Projector:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ Projector:
   m_Enabled: 1
   serializedVersion: 2
   m_NearClipPlane: 1
-  m_FarClipPlane: 3.34
+  m_FarClipPlane: 1.8
   m_FieldOfView: 60.74
   m_AspectRatio: 1
   m_Orthographic: 1
@@ -244,7 +244,7 @@ Projector:
   m_IgnoreLayers:
     serializedVersion: 2
     m_Bits: 8
---- !u!114 &204186409
+--- !u!114 &204186410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,11 +253,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 204186406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65ad0c24de4394d44920387657d8a336, type: 3}
+  m_Script: {fileID: 11500000, guid: b13af54ebb4ab394ab114865541fb1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothSpeed: 1
-  camOffset: {x: 1.615022, y: -6.2933803, z: 2.3189304}
+  camOffset: {x: -1.63, y: -6.2933803, z: -1.26}
   objectToFollow: {fileID: 1630541315}
 --- !u!1 &521964362
 GameObject:
@@ -1476,7 +1475,6 @@ MonoBehaviour:
   isAttacking: 0
   isGrounded: 0
   isShooting: 0
-  dropShadow: {fileID: 204186406}
 --- !u!4 &1731110672
 Transform:
   m_ObjectHideFlags: 0

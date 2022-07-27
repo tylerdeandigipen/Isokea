@@ -82,8 +82,6 @@ public class Movement : MonoBehaviour
     public bool isGrounded;
     [HideInInspector]
     public bool isShooting;
-    [SerializeField]
-    GameObject dropShadow;
     void Start()
     { 
         numOfDashClones += 1;
@@ -163,8 +161,6 @@ public class Movement : MonoBehaviour
             {
                 isGrounded = true;
                 controller.Move(new Vector3(0, -20, 0) * Time.deltaTime);
-                dropShadow.transform.position = new Vector3(hit.point.x, hit.point.y + .1f, hit.point.z);
-                dropShadow.transform.rotation = Quaternion.Euler(hit.normal);
             }
             else
                 isGrounded = false;
