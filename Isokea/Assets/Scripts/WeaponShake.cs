@@ -17,6 +17,9 @@ public class WeaponShake : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        CameraShaker.Presets.ShortShake2D();
+        if (other.tag != "TriggerZone")
+        {
+            CameraShaker.Presets.ShortShake2D();
+        }
     }
 }

@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 600792277}
   m_Layer: 6
   m_Name: Arena Trigger
-  m_TagString: ground
+  m_TagString: TriggerZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -500,7 +500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walls: {fileID: 851340269}
-  enemy: {fileID: 7067431703460501795, guid: de1c2e3e80aba5a4788f7c850066e0c3, type: 3}
   enemiesKilled: 0
   wave1:
   - {fileID: 7067431703460501795, guid: de1c2e3e80aba5a4788f7c850066e0c3, type: 3}

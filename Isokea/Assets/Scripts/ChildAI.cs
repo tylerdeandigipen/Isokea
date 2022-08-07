@@ -47,6 +47,8 @@ public class ChildAI : MonoBehaviour
     [SerializeField]
     SpriteRenderer spRenderer;
     [SerializeField]
+    GameObject deathParticles;
+    [SerializeField]
     Material flashMat;
     Material normalMat;
     float currentPoise;
@@ -270,6 +272,8 @@ public class ChildAI : MonoBehaviour
 
     void Death()
     {
+        GameObject temp = Instantiate(deathParticles);
+        temp.transform.position = this.transform.position;
         Destroy(this.gameObject.transform.parent.gameObject);
     }
     IEnumerator ResetColor(float duration)

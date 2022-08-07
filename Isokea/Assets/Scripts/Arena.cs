@@ -6,8 +6,6 @@ public class Arena : MonoBehaviour
 {
     [SerializeField]
     GameObject walls;
-    [SerializeField]
-    GameObject enemy;
     [HideInInspector]
     public int enemiesKilled;
     [SerializeField]
@@ -122,6 +120,7 @@ public class Arena : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             walls.SetActive(true);
+            this.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
