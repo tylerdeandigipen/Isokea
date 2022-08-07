@@ -4916,9 +4916,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50958d067e8e4854193d6b12745f4360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnDelay: 0.3
+  spawnDelay: 1
   EnemyController: {fileID: 0}
   EnemySprite: {fileID: 0}
+  otherParticles: {fileID: 1321002479367391455}
 --- !u!1 &6948579211990667565
 GameObject:
   m_ObjectHideFlags: 0

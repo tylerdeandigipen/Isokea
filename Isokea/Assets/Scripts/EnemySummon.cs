@@ -10,9 +10,16 @@ public class EnemySummon : MonoBehaviour
     GameObject EnemyController;
     [SerializeField]
     GameObject EnemySprite;
+    [SerializeField]
+    ParticleSystem otherParticles;
     // Start is called before the first frame update
     void Start()
     {
+        ParticleSystem temp = this.GetComponent<ParticleSystem>();
+        var main = temp.main;
+        main.simulationSpeed = .3f;
+        var main2 = otherParticles.main;
+        main2.simulationSpeed = .3f;
         EnemyController.SetActive(false);
         EnemySprite.SetActive(false);
         Invoke("UnhideEnemy", spawnDelay);
