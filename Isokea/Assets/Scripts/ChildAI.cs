@@ -292,7 +292,7 @@ public class ChildAI : MonoBehaviour
             {
                 if (temp.movementDir == Vector3.zero)
                 {
-                    TakeKnockback(1, other.transform.parent.transform.rotation.eulerAngles.normalized * temp.knockbackForce);
+                    TakeKnockback(1, other.transform.parent.transform.forward * temp.knockbackForce);
                 }
                 else
                     TakeKnockback(1, new Vector3(temp.movementDir.x * temp.knockbackForce, temp.upForce, temp.movementDir.z * temp.knockbackForce));
